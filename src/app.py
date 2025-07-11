@@ -65,3 +65,17 @@ def signup_for_activity(activity_name: str, email: str):
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
+
+    @app.get("/countries/{country}/cities")
+    def get_cities(country: str):
+        """Return a list of cities for a given country/region"""
+        country_cities = {
+            "USA": ["New York", "Los Angeles", "Chicago", "Houston"],
+            "UK": ["London", "Manchester", "Birmingham", "Liverpool"],
+            "Canada": ["Toronto", "Vancouver", "Montreal", "Calgary"],
+            "Australia": ["Sydney", "Melbourne", "Brisbane", "Perth"],
+            "Spain": ["Madrid", "Barcelona", "Valencia", "Seville"]
+        }
+        if country not in country_cities:
+            raise HTTPException(status_code=404, detail="Country/region not found")
+        return {"country": country, "cities": country_cities[country]}
