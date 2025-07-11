@@ -1,8 +1,62 @@
 """
 High School Management System API
 
-A super simple FastAPI application that allows students to view and sign up
+A simple FastAPI application that allows students to view and sign up
 for extracurricular activities at Mergington High School.
+
+## Features
+
+- View available extracurricular activities
+- Sign up for activities
+- Serve static frontend files
+- Example endpoint for listing cities by country
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.8 or newer
+- `pip` package manager
+
+### Installation
+
+1. Install dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+2. Start the FastAPI server:
+   ```sh
+   uvicorn src.app:app --reload
+   ```
+
+3. Open your browser and navigate to:
+   - Web app: [http://localhost:8000/static/index.html](http://localhost:8000/static/index.html)
+   - API docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+The app will reload automatically on code changes when using `--reload`.
+
+## Project Structure
+
+```
+src/
+  app.py           # Main FastAPI application
+  static/
+    index.html     # Frontend HTML
+    app.js         # Frontend JavaScript
+    styles.css     # Frontend CSS
+requirements.txt   # Python dependencies
+```
+
+## Example API Endpoints
+
+- `GET /activities` - List all activities
+- `POST /activities/{activity_name}/signup?email=student@school.edu` - Sign up for an activity
+- `GET /countries/{country}/cities` - List cities for a given country
+
+---
+
+This project is ready to run in a dev container with Python, Node.js, and Git
 """
 
 from fastapi import FastAPI, HTTPException
@@ -66,8 +120,8 @@ def signup_for_activity(activity_name: str, email: str):
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
 
-    @app.get("/countries/{country}/cities")
-    def get_cities(country: str):
+@app.get("/countries/{country}/cities")
+def get_cities(country: str):
         """Return a list of cities for a given country/region"""
         country_cities = {
             "USA": ["New York", "Los Angeles", "Chicago", "Houston"],
